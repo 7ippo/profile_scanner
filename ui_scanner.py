@@ -71,9 +71,8 @@ PUBLICRESOURCES = {
         "res/icon/small_map/small_map.jpg",
         }
 
-#TODO 读取资源详细信息，长宽，文件大小
-
-def readIconOrAtlasDetail(res_name) -> dict:
+# 读取资源详细信息，长宽，文件大小
+def readIconOrAtlasDetail(res_name, view_name) -> dict:
     result = {}
     icon_re = re.compile(r'^res/icon')
     if icon_re.match(res_name):
@@ -85,7 +84,7 @@ def readIconOrAtlasDetail(res_name) -> dict:
             file_size = os.stat(res_path).st_size // 1024
             result[res_name] = [width , height, file_size]
         else:
-            print("File: {} not exist! Please check ui_setting.".format(res_path))
+            print("File: {} not exist! Please check ui_setting of View: {}".format(res_path, view_name))
             return result
     else:
         res_path = os.path.join(RESOURCEPATH, ATLASPATHPREFIX, res_name + '.atlas')
@@ -102,14 +101,14 @@ def readIconOrAtlasDetail(res_name) -> dict:
                         file_size = os.stat(png_path).st_size //1024
                         result[png] = [width, height, file_size]
                     else:
-                        print("File: {} not exist! Please check atlas {}.".format(png_path, res_path))
+                        print("File: {} not exist! Please check atlas {}".format(png_path, res_path))
                         continue
         else:
-            print("File: {} not exist! Please check ui_setting.".format(res_path))
+            print("File: {} not exist! Please check ui_setting of View: {}".format(res_path, view_name))
             return result
     return result
 
-#整合传入的ui配置文件与现有的非公共资源配置，去除公共资源后输出
+# 整合传入的ui配置文件与现有的非公共资源配置，去除公共资源后输出
 def outputNonpublicRes(ui_setting, nonpublic_uisetting) -> dict:
     comment_re = re.compile(r'^//')
     icon_re = re.compile(r'^res/icon')
@@ -123,12 +122,12 @@ def outputNonpublicRes(ui_setting, nonpublic_uisetting) -> dict:
             view_setting = nonpublic_uisetting[view_name]
             if icon_re.match(res):
                 if res not in view_setting["icon"]:
-                    res_info = readIconOrAtlasDetail(res)
+                    res_info = readIconOrAtlasDetail(res, view_name)
                     view_setting["icon"].update(res_info)
                     view_setting["count"] += 1
             else:
                 if res not in view_setting["atlas"]:
-                    res_info = readIconOrAtlasDetail(res)
+                    res_info = readIconOrAtlasDetail(res, view_name)
                     view_setting["atlas"].update(res_info)
                     view_setting["count"] += len(res_info.keys())
     return nonpublic_uisetting
@@ -161,11 +160,3 @@ if __name__ == '__main__':
     with open("ui_setting_nonpublic.json", "w", encoding='utf-8') as f:
             json.dump(final_uisetting, f)
             print("ui_setting_nonpublic写入文件完成...")
-
-
-    # 读取非公共资源信息，输出output.json
-    # 大小：os.stat('whatever.png').st_size
-    # 长宽:
-    # im = Image.open('whatever.png')
-    # width, height = im.size
-    #TODO
