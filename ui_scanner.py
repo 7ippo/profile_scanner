@@ -29,25 +29,19 @@ output:
 authro: zpo
 
 使用方法：
-python ui_scanner.py [file_path]
-
-options:
-[file_path] ui_setting.json与ui_setting_custom.json的相对路径
+python ui_scanner.py
 
 """
 
 import os
 import re
-import argparse
 import json
 from PIL import Image
-
-parser = argparse.ArgumentParser()
-parser.add_argument('file_path', help='The path to ui_setting/ui_setting_custom.')
 
 MAXRESOURCESREQUIRE = 6
 RESOURCEPATH = "."
 ATLASPATHPREFIX = "res/atlas"
+UISETTINGPATHPREFIX = "pre_load_config"
 PUBLICRESOURCES = {
         "rsl_btn",      # 按钮
         "rsl_num",      # 美术数字图片
@@ -133,12 +127,8 @@ def outputNonpublicRes(ui_setting, nonpublic_uisetting) -> dict:
     return nonpublic_uisetting
 
 if __name__ == '__main__':
-    args = parser.parse_args()
-    if not(args.file_path):
-        parser.print_help()
-        exit(0)
-    ui_setting_path = os.path.join(args.file_path, 'ui_setting.json')
-    ui_setting_custom_path = os.path.join(args.file_path, 'ui_setting_custom.json')
+    ui_setting_path = os.path.join(UISETTINGPATHPREFIX, 'ui_setting.json')
+    ui_setting_custom_path = os.path.join(UISETTINGPATHPREFIX, 'ui_setting_custom.json')
     ui_setting = {}
     ui_setting_custom = {}
     try:
@@ -151,7 +141,7 @@ if __name__ == '__main__':
         with open(ui_setting_custom_path, 'r', encoding='utf-8') as f:
             ui_setting_custom = json.load(f)
     except IOError:
-        print("File: {} is not accessible.".format(args.file))
+        print("File: {} is not accessible.".format(ui_setting_custom_path))
         exit(0)
     # 整合两个setting json，排除公共资源，输出一个面板所需的所有非公共资源
     nonpublic_uisetting = {}
@@ -160,3 +150,4 @@ if __name__ == '__main__':
     with open("ui_setting_nonpublic.json", "w", encoding='utf-8') as f:
             json.dump(final_uisetting, f)
             print("ui_setting_nonpublic写入文件完成...")
+    os.system('pause')
