@@ -56,6 +56,7 @@ PUBLICRESOURCES = {
         "attr_change",  # 场景对象,战斗飘字
         "buff",         # 场景对象,buff
         "common_window_view1",  # 公共面板
+        "icon_goods",   # 物品图标
         # Loading底图
         "res/icon/login/login_bg.jpg",
         "res/icon/loading/loading_bg_1.jpg",
