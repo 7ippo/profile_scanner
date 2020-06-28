@@ -11,6 +11,13 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "args": ["./test/ui_setting_nonpublic.json"]
+        },
+        {
+            "name": "特效检查",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
         }
     ]
 }
