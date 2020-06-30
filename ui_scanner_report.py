@@ -288,6 +288,6 @@ if __name__ == '__main__':
         tab.add(table_atlas(atlas_data), "图集数量超标面板")
     if len(size_data):
         tab.add(table_size(size_data), "资源宽高超标面板")
-    tab.render()
+    tab.render("ui_report.html")
     print("报告已生成...")
     os.system('pause')
