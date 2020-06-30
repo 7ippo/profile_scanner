@@ -23,7 +23,6 @@ python effect_scanner.py
 
 import os
 import re
-import json
 from PIL import Image
 from pyecharts.components import Table
 from pyecharts import options as opts
@@ -69,3 +68,4 @@ table.set_global_opts(
 )
 table.render("effect_report.html")
 print("报告已生成...")
+os.system('pause')
