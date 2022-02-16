@@ -7,7 +7,7 @@
 
 如果因为pyecharts的问题导致无法打包成exe，使用方法见*开发*。
 
-?> 通过配置pyinstaller生成的spec文件，使其打包时拷贝资源可以解决打包exe的问题，[参考](https://github.com/pyecharts/pyecharts/issues/1653)
+> 通过配置pyinstaller生成的spec文件，使其打包时拷贝资源可以解决打包exe的问题，[参考](https://github.com/pyecharts/pyecharts/issues/1653)
 
 ## 开发
 
